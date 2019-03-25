@@ -48,12 +48,10 @@ public class RequestController {
                 consumes={MediaType.APPLICATION_JSON_VALUE},
                 produces = {MediaType.APPLICATION_JSON_VALUE})
     Request setStatus(@RequestBody Status status, @PathVariable Long id) {
-        Request r = repository.findById(id)
+        Request request = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id));
-        r.setStatus(status);
-        //request.setStatus(status);
-        repository.save(r);
-        return r;
-        //return repository.save(request);
+        request.setStatus(status);
+        repository.save(request);
+        return request;
     }
 }
