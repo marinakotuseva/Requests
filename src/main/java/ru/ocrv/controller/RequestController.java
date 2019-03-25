@@ -1,6 +1,7 @@
 package ru.ocrv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
@@ -31,22 +32,28 @@ public class RequestController {
     private RequestRepository repository;
 
 
-    @GetMapping("/request")
+    @GetMapping(path="/request",
+                consumes={MediaType.APPLICATION_JSON_VALUE},
+                produces = {MediaType.APPLICATION_JSON_VALUE})
     List<Request> findAll() {
         return repository.findAll();
     }
 
     @PostMapping("/request")
-    String create(@RequestBody Request request) {
-        return repository.save(request).toString();
+    Request create(@RequestBody Request request) {
+        return repository.save(request);
     }
 
-    @GetMapping("/request/{id}")
-    Request setStatus(@PathVariable Long id) {
-        Request request = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(id));;
+    @PutMapping(path="/request/{id}",
+                consumes={MediaType.APPLICATION_JSON_VALUE},
+                produces = {MediaType.APPLICATION_JSON_VALUE})
+    Request setStatus(@RequestBody Status status, @PathVariable Long id) {
+        Request r = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(id));
+        r.setStatus(status);
         //request.setStatus(status);
-        return request;
+        repository.save(r);
+        return r;
         //return repository.save(request);
     }
 }
