@@ -1,1 +1,1 @@
-requests
+REST service for Request entity
