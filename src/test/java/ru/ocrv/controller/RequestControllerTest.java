@@ -116,7 +116,7 @@ public class RequestControllerTest {
     @Test
     public void testDeleteRequest() {
 
-        long id = 1;
+        long id = 4;
         int size;
 
         // Check that country exists
