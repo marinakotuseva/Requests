@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name="requests")
 public class Request {
-    //private long numCounter = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long num;
@@ -23,7 +23,6 @@ public class Request {
     }
 
     public Request(String description){
-        //this.num = ++numCounter;
         this.description = description;
         this.status = Status.NEW;
     }

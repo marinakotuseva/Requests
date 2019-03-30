@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 public class Comment {
-    //private long numCounter = 0;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long num;
@@ -13,9 +12,35 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.ALL)
     private Request request;
 
+    public Comment() {
+    }
+
     public Comment(String text) {
-        //this.num = ++numCounter;
         this.text = text;
+    }
+
+    public long getNum() {
+        return num;
+    }
+
+    public void setNum(long num) {
+        this.num = num;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
     @Override

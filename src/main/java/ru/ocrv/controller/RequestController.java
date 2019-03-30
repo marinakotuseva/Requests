@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.ocrv.entity.Comment;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
+import ru.ocrv.exc.IncorrectDescription;
+import ru.ocrv.exc.IncorrectText;
 import ru.ocrv.exc.RecordNotFoundException;
 import ru.ocrv.repo.RequestRepository;
 
@@ -31,33 +33,51 @@ public class RequestController {
     @Autowired
     private RequestRepository repository;
 
-
-    @GetMapping(path="/request",
-                consumes={MediaType.APPLICATION_JSON_VALUE},
-                produces = {MediaType.APPLICATION_JSON_VALUE})
+    // Считать все
+    @GetMapping(path="/request")
     List<Request> findAll() {
         return repository.findAll();
     }
 
+    // Создать новую
     @PostMapping("/request")
-    Request create(@RequestBody Request request) {
+    Request create(@RequestBody Request request) throws IncorrectDescription {
+        if (request.getDescription() == "" || request.getDescription() == null){
+            throw new IncorrectDescription();
+        }
         return repository.save(request);
     }
 
-    @PutMapping("/request/{id}")
-    Request setStatus(@RequestBody Status status, @PathVariable Long id) {
-        Request request = repository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException(id));
+    // Найти заявку по номеру
+    @GetMapping("/request/{num}")
+    Request findByNum(@PathVariable Long num) {
+        Request request = repository.findByNum(num).get(0);
+        return request;
+    }
+
+    // Поменять статус
+    @PutMapping("/request/{num}")
+    Request setStatus(@RequestBody Status status, @PathVariable Long num) {
+        Request request = repository.findByNum(num).get(0);
         request.setStatus(status);
         repository.save(request);
         return request;
     }
 
-    @PostMapping("/request/{id}")
-    Request addComment(@RequestBody Comment comment, @PathVariable Long id) {
-        Request request = repository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException(id));
-        request.addComment(comment);
+    // Добавить комментарий
+    @PostMapping("/request/{num}")
+    Request addComment(@RequestBody String comment, @PathVariable Long num) throws IncorrectText {
+        if (comment == "" || comment == null){
+            throw new IncorrectText();
+        }
+        Request request = repository.findByNum(num).get(0);
+        request.addComment(new Comment(comment));
+//        repository.save(request);
         return request;
     }
+
+//    @PostMapping("/request/{num}")
+//    String addComment(@RequestBody Comment comment, @PathVariable Long num) throws IncorrectText {
+//        return comment.getText();
+//    }
 }
