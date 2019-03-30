@@ -10,10 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Table(name="requests")
 public class Request {
 
-    private static final AtomicInteger count = new AtomicInteger(0);
+    private static final AtomicInteger count = new AtomicInteger(4);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long num;
+    private long id;
     @Column
     private String description;
     @Column
@@ -27,15 +27,15 @@ public class Request {
     public Request(String description){
         this.description = description;
         this.status = Status.NEW;
-        num = count.incrementAndGet();
+        id = count.incrementAndGet();
     }
 
-    public long getNum() {
-        return num;
+    public long getId() {
+        return id;
     }
 
-    public void setNum(long num) {
-        this.num = num;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -71,11 +71,17 @@ public class Request {
 
     @Override
     public String toString() {
+        String comments;
+        if (this.comments == null){
+            comments = "";
+        } else {
+            comments = this.comments.toString();
+        }
         return "Request{" +
-                "num=" + num +
+                "id=" + id +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", comments=" + comments.toString() +
+                ", comments=" + comments +
                 '}';
     }
 }

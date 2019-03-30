@@ -9,7 +9,7 @@ public class Comment {
     private static final AtomicInteger count = new AtomicInteger(0);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long num;
+    private long id;
     @Column
     private String text;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -20,15 +20,15 @@ public class Comment {
 
     public Comment(String text) {
         this.text = text;
-        this.num = count.incrementAndGet();
+        this.id = count.incrementAndGet();
     }
 
-    public long getNum() {
-        return num;
+    public long getId() {
+        return id;
     }
 
-    public void setNum(long num) {
-        this.num = num;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getText() {
@@ -50,7 +50,7 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "num=" + num +
+                "id=" + id +
                 ", text='" + text + '\'' +
                 ", request=" + request +
                 '}';

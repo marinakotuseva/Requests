@@ -1,7 +1,9 @@
 package ru.ocrv.repo;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,6 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RequestRepositoryTest {
 
     @Autowired
@@ -32,7 +35,12 @@ public class RequestRepositoryTest {
 
     @Test
     public void testSaveRequest() {
-        String newDescr = "Some descr";
+        // Get amount
+        List<Request> initialRequests = repository.findAll();
+        int initialSize = initialRequests.size();
+
+        // Create new
+        String newDescr = "Описание 4";
         Status newStatus = Status.NEW;
 
         Request r = new Request(newDescr);
@@ -40,15 +48,15 @@ public class RequestRepositoryTest {
 
         List<Request> requests = repository.findAll();
 
-        assertThat(requests.size(), equalTo(4));
-        assertThat(requests.get(3).getDescription(), equalTo(newDescr));
-        assertThat(requests.get(3).getStatus(), equalTo(newStatus));
+        assertThat(requests.size(), equalTo(initialSize+1));
+        assertThat(requests.get(initialSize).getDescription(), equalTo(newDescr));
+        assertThat(requests.get(initialSize).getStatus(), equalTo(newStatus));
     }
 
     @Test
     public void testFindByNum() {
-        long num = 1;
-        List<Request> requests = repository.findByNum(num);
+        long id = 1;
+        List<Request> requests = repository.findById(id);
 
         assertThat(requests.size(), equalTo(1));
         assertThat(requests.get(0).getDescription(), equalTo("Описание 1"));

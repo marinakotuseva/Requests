@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    List<Request> findByNum(long num);
-    List<Request> deleteByNum(long num);
+    List<Request> findById(long id);
+    List<Request> deleteById(long id);
 
 }
