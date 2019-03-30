@@ -167,6 +167,40 @@ public class RequestControllerTest {
         // Add comment
         ResponseEntity<String> responseAfterAddindComment = testRestTemplate.postForEntity("/request/"+num, newComment, String.class);
         assertThat(responseAfterAddindComment.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @Test
+    public void testDeleteRequest() {
+
+        long num = 4;
+        int size;
+
+        // Check that country exists and amount
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/request/"+ num, String.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+        Type listType = new TypeToken<ArrayList<Request>>() {
+        }.getType();
+        List<Request> requestList = new Gson().fromJson(response.getBody(), listType);
+        size = requestList.size();
+
+        // Delete country
+        ResponseEntity<Request> responseDelete = testRestTemplate.exchange("/request/"+ num,
+                HttpMethod.DELETE,
+                HttpEntity.EMPTY,
+                Request.class);
+
+        assertThat(responseDelete.getStatusCode(), equalTo(HttpStatus.OK));
+
+        // Check new amount
+        ResponseEntity<String> responseAfterDeletion = testRestTemplate.getForEntity("/request", String.class);
+
+        assertThat(responseAfterDeletion.getStatusCode(), equalTo(HttpStatus.OK));
+
+        Type listType2 = new TypeToken<ArrayList<Request>>() {
+        }.getType();
+        List<Request> requestListAfterDeletion = new Gson().fromJson(responseAfterDeletion.getBody(), listType2);
+
+        assertThat(requestListAfterDeletion, hasSize(size-1));
 
     }
 
