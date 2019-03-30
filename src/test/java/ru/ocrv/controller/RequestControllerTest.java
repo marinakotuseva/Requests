@@ -27,7 +27,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RequestControllerTest {
 
-    private String site = "http://localhost:8080";
+    private final String site = "http://localhost:8080";
 
     @Autowired
     private TestRestTemplate testRestTemplate;

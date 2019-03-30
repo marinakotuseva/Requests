@@ -6,7 +6,6 @@ import ru.ocrv.entity.Comment;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
 import ru.ocrv.exc.IncorrectDescription;
-import ru.ocrv.exc.IncorrectText;
 import ru.ocrv.exc.RecordNotFoundException;
 import ru.ocrv.repo.RequestRepository;
 
@@ -36,10 +35,9 @@ public class RequestController {
     // Найти заявку по номеру
     @GetMapping("/request/{id}")
     Request findByNum(@PathVariable Long id) {
-        Request request = repository
+        return repository
                 .findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
-        return request;
     }
 
     // Поменять статус
@@ -55,7 +53,7 @@ public class RequestController {
 
     // Добавить комментарий
     @PostMapping("/request/{id}")
-    Request addComment(@RequestBody String comment, @PathVariable Long id) throws IncorrectText {
+    Request addComment(@RequestBody String comment, @PathVariable Long id) {
         Request request = repository
                 .findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
