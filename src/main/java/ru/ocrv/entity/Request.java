@@ -2,7 +2,9 @@ package ru.ocrv.entity;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,7 +21,7 @@ public class Request {
     @Column
     private Status status;
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "request")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     public Request() {
     }
@@ -54,29 +56,23 @@ public class Request {
         this.status = status;
     }
 
-    public Set<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
     public void addComment(Comment comment){
         if (comments == null){
-            comments = new HashSet<Comment>();
+            comments = new ArrayList<>();
         }
         comments.add(comment);
     }
 
     @Override
     public String toString() {
-        String comments;
-        if (this.comments == null){
-            comments = "";
-        } else {
-            comments = this.comments.toString();
-        }
         return "Request{" +
                 "id=" + id +
                 ", description='" + description + '\'' +

@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.ocrv.entity.Comment;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
+import ru.ocrv.exc.RecordNotFoundException;
 
 import java.lang.reflect.Type;
 import java.sql.Statement;
