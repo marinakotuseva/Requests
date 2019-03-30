@@ -6,10 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="requests")
 public class Request {
     //private long numCounter = 0;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long num;
     @Column
     private String description;

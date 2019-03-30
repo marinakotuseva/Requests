@@ -3,12 +3,12 @@ package ru.ocrv.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.ocrv.entity.Comment;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
-import ru.ocrv.exc.NotFoundException;
+import ru.ocrv.exc.RecordNotFoundException;
 import ru.ocrv.repo.RequestRepository;
 
-import javax.validation.Valid;
 import java.util.List;
 
 //Сервис должен поддерживать следующие операции:
@@ -44,14 +44,20 @@ public class RequestController {
         return repository.save(request);
     }
 
-    @PutMapping(path="/request/{id}",
-                consumes={MediaType.APPLICATION_JSON_VALUE},
-                produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping("/request/{id}")
     Request setStatus(@RequestBody Status status, @PathVariable Long id) {
         Request request = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(id));
+                .orElseThrow(() -> new RecordNotFoundException(id));
         request.setStatus(status);
         repository.save(request);
+        return request;
+    }
+
+    @PostMapping("/request/{id}")
+    Request addComment(@RequestBody Comment comment, @PathVariable Long id) {
+        Request request = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id));
+        request.addComment(comment);
         return request;
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Comment {
     //private long numCounter = 0;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long num;
     @Column
     private String text;
@@ -16,5 +16,14 @@ public class Comment {
     public Comment(String text) {
         //this.num = ++numCounter;
         this.text = text;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "num=" + num +
+                ", text='" + text + '\'' +
+                ", request=" + request +
+                '}';
     }
 }
