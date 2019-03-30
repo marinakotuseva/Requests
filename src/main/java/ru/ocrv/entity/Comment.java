@@ -1,9 +1,12 @@
 package ru.ocrv.entity;
 
 import javax.persistence.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 public class Comment {
+
+    private static final AtomicInteger count = new AtomicInteger(0);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long num;
@@ -17,6 +20,7 @@ public class Comment {
 
     public Comment(String text) {
         this.text = text;
+        this.num = count.incrementAndGet();
     }
 
     public long getNum() {

@@ -4,11 +4,13 @@ package ru.ocrv.entity;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 @Table(name="requests")
 public class Request {
 
+    private static final AtomicInteger count = new AtomicInteger(0);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long num;
@@ -25,6 +27,7 @@ public class Request {
     public Request(String description){
         this.description = description;
         this.status = Status.NEW;
+        num = count.incrementAndGet();
     }
 
     public long getNum() {
