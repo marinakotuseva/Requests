@@ -11,21 +11,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.ocrv.entity.Comment;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
-import ru.ocrv.exc.RecordNotFoundException;
 
 import java.lang.reflect.Type;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-
-import java.lang.reflect.Type;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -98,6 +93,7 @@ public class RequestControllerTest {
         ResponseEntity<String> responseAfterCreation = testRestTemplate.postForEntity("/request", request, String.class);
         assertThat(responseAfterCreation.getStatusCode(), equalTo(HttpStatus.OK));
 
+        // Check params
         Type type = new TypeToken<Request>() {
         }.getType();
         Request createdRequest = new Gson().fromJson(responseAfterCreation.getBody(), type);
@@ -175,6 +171,7 @@ public class RequestControllerTest {
 
         assertThat(requestList.get(0).getDescription(), equalTo("Описание 1"));
         assertThat(requestList.get(1).getDescription(), equalTo("Описание 2"));
+        assertThat(requestList.get(2).getDescription(), equalTo("Описание 3"));
     }
 
 

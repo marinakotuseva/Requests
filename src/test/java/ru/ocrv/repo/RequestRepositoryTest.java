@@ -9,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.ocrv.entity.Request;
 import ru.ocrv.entity.Status;
-import ru.ocrv.exc.RecordNotFoundException;
-import ru.ocrv.repo.RequestRepository;
 
 import java.util.List;
 

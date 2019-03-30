@@ -2,9 +2,6 @@ package ru.ocrv;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.ocrv.controller.RequestController;
-import ru.ocrv.entity.Request;
-import ru.ocrv.repo.RequestRepository;
 
 @SpringBootApplication
 public class WebApplication {
